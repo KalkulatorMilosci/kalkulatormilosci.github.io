@@ -10,7 +10,11 @@
         height: 100vh;
         overflow: hidden;
         font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #ff6b81, #ffb6c1);
+
+        /* TŁO OBRAZKOWE */
+        background: url("background.jpg") no-repeat center center fixed;
+        background-size: cover;
+
         display: flex;
         justify-content: center;
         align-items: center;
@@ -18,7 +22,7 @@
 
     .container {
         text-align: center;
-        background: white;
+        background: rgba(255, 255, 255, 0.9);
         padding: 30px;
         border-radius: 20px;
         width: 320px;
@@ -70,7 +74,6 @@ function normalize(str) {
         .replace(/\s+/g, " ");
 }
 
-// zwykły wynik
 function generateScore(name1, name2) {
     let str = (name1 + name2).toLowerCase();
     let hash = 0;
