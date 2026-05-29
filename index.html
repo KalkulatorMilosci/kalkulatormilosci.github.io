@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<title>Kalkulator Miłości</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ff6b81, #ffb6c1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        text-align: center;
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        width: 320px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        background: #ff4d6d;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-weight: bold;
+        transition: all 0.2s ease;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Kalkulator Miłości</h2>
+    <input type="text" id="name1" placeholder="Imię pierwszej osoby">
+    <input type="text" id="name2" placeholder="Imię drugiej osoby">
+    <button onclick="calculateLove()">Sprawdź</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+function normalize(str) {
+    return str
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, " ");
+}
+
+// zwykły wynik
+function generateScore(name1, name2) {
+    let str = (name1 + name2).toLowerCase();
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash += str.charCodeAt(i) * (i + 1);
+    }
+    return hash % 101;
+}
+
+function isEasterEgg(name1, name2) {
+    let a = normalize(name1);
+    let b = normalize(name2);
+
+    const combo1 = (a === "przemek" && b === "pan piątek");
+    const combo2 = (a === "pan piątek" && b === "przemek");
+
+    return combo1 || combo2;
+}
+
+function calculateLove() {
+    const name1 = document.getElementById("name1").value;
+    const name2 = document.getElementById("name2").value;
+    const resultDiv = document.getElementById("result");
+
+    let score = isEasterEgg(name1, name2) ? 100 : generateScore(name1, name2);
+
+    let current = 0;
+    resultDiv.innerHTML = "0%";
+
+    let speed = Math.max(5, 50 - score / 2);
+
+    let interval = setInterval(() => {
+        if (current >= score) {
+            clearInterval(interval);
+        } else {
+            current++;
+
+            let size = 20 + current * 0.5;
+
+            resultDiv.innerHTML = current + "%";
+            resultDiv.style.fontSize = size + "px";
+            resultDiv.style.color = `hsl(${(current * 1.2)}, 80%, 50%)`;
+        }
+    }, speed);
+}
+</script>
+
+</body>
+</html>
